@@ -1,30 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h1>Market Tracker</h1>
-        <p>Track cryptocurrency prices in one place.</p>
+
+<body class="bg-gray-700 text-white min-h-screen">
+    <header class="bg-gray-800 p-4 text-center">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-emerald-400">
+                Market Tracker
+            </h1>
+            <p class="text-gary-400 mt-2">
+                Track cryptocurrency prices in one place.
+            </p>
+        </div>
     </header>
-    <main>
-        <section>
-            <h2>Search Coins</h2>
-            <input type="text" placeholder="Enter coin name">
-            <button>Search</button>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <section class="bg-emerald-900 rounded-xl p-5 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-green-300">
+                Search Coins
+            </h2>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" placeholder="Enter coin name"
+                    class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 ">
+                <button class="bg-emerald-500 hover:bg-gray-700 text-slate-900 font-semibold rounded-lg px-6 py-3">
+                    Search
+                </button>
+            </div>
         </section>
 
-        <section>
-            <h2>Top 20 Coins</h2>
-            <p>Cryptocurrency data will appear here.</p>
+        <section class="bg-slate-900 rounded-xl mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+                <h2 class="text-xl  font-semibold">
+                    Top 20 Coins
+                </h2>
+                <button class="border border-yellow-700 hover:bg-emerald-800 rounded-lg px-4 py-2">
+                    Refresh Prices
+                </button>
+            </div>
+            <p class="text-yellow-400">
+                Cryptocurrency data will appear here.
+            </p>
         </section>
-        <section>
-            <h2>My Watchlist</h2>
-            <p>Your saved coins will appear here.</p>
+        <section class="bg-emerald-900 rounded-xl p-5">
+            <h2 class="text-xl font-semibold mb-3">My Watchlist</h2>
+            <p class="text-yellow-500 ">Your saved coins will appear here.</p>
         </section>
     </main>
+    <footer class="text-center text-yellow-400 font-semibold text-sm py-6">
+        Market-Trader - Cryptocurrency Market Dashbord
+    </footer>
 </body>
+
 </html>

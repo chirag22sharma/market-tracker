@@ -26,11 +26,17 @@
                 Search Coins
             </h2>
             <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" placeholder="Enter coin name"
+                <input type="text" id="search-input" placeholder="Enter coin name"
                     class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 ">
-                <button class="bg-emerald-500 hover:bg-gray-700 text-slate-900 font-semibold rounded-lg px-6 py-3">
+                <button id="search-btn"
+                    class="bg-emerald-500 hover:bg-gray-700 text-slate-900 font-semibold rounded-lg px-6 py-3">
                     Search
                 </button>
+                <select id="sort-select" class="bg-gray-800 text-white p-2 rounded">
+                    <option value="">Sort Coins</option>
+                    <option value="low">Price: Low to High</option>
+                    <option value="high">Price: High to Low</option>
+                </select>
             </div>
         </section>
 
@@ -43,7 +49,7 @@
                     Refresh Prices
                 </button>
             </div>
-            <div id="coin-data">
+            <div id="coin-data" class="bg-gray-800 p-4 rounded-lg shadow-md mb-4">
             </div>
         </section>
         <section class="bg-emerald-900 rounded-xl p-5">

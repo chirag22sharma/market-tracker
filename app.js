@@ -130,19 +130,36 @@ async function fetchData() {
             const sortValue = sortSelect.value;
 
             let sortedCoins = data
-
-            if (sortValue === "low") {
+            if (sortValue == "low") {
                 sortedCoins = data.sort(function (a, b) {
                     return a.current_price - b.current_price;
                 });
-            } else if (sortValue === "high") {
+            } else if (sortValue == "high") {
                 sortedCoins = data.sort(function (a, b) {
                     return b.current_price - a.current_price;
                 });
+            } else if (sortValue == "change-low") {
+                sortedCoins = data.sort(function (a, b) {
+                    return a.price_change_percentage_24h - b.price_change_percentage_24h;
+                });
+            } else if (sortValue == "change-high") {
+                sortedCoins = data.sort(function (a, b) {
+                    return b.price_change_percentage_24h - a.price_change_percentage_24h;
+                });
+            } else if (sortValue == "market-low") {
+                sortedCoins = data.sort(function (a, b) {
+                    return a.market_cap - b.market_cap;
+                });
+            } else if (sortValue == "market-high") {
+                sortedCoins = data.sort(function (a, b) {
+                    return b.market_cap - a.market_cap;
+                });
             }
+
             coinData.textContent = "";
             for (let i = 0; i < sortedCoins.length; i++) {
                 const coinCard = document.createElement("div");
+                coinCard.setAttribute("data-id", sortedCoins[i].id);
                 coinCard.className = "bg-gray-800 text-white p-5 rounded-xl shadow-lg border border-gray-600 hover:border-emerald-400 hover:shadow-xl transition duration-300";
 
                 const coinName = document.createElement("h3");

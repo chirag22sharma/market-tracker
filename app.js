@@ -3,6 +3,7 @@ const api_key = "CG-Bbd4ZZzQz1tjBUNyPbgB2nye";
 
 const api = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false";
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+let allCoins = [];
 const coinDetails = document.getElementById("coin-details");
 async function fetchData() {
     const coinData = document.getElementById("coin-data");
@@ -14,6 +15,12 @@ async function fetchData() {
             }
         });
         const data = await response.json();
+        allCoins = data;
+
+        const coinNames = data.map(function (coin) {
+            return coin.name;
+        });
+        console.log(coinNames);
 
         if (!response.ok) {
             throw new Error("Unable to fetch data from API");
@@ -86,6 +93,48 @@ async function fetchData() {
 
         const searchInput = document.getElementById("search-input");
         const searchBtn = document.getElementById("search-btn");
+
+        searchBtn.addEventListener("click", async function () {
+            const searchValue = searchInput.value.toLowerCase();
+
+            const searchCoin = data.filter(function (coin) {
+                return coin.name.toLowerCase().includes(searchValue);
+            });
+
+            if (searchCoin.length > 0) {
+                for (let i = 0; i < data.length; i++) {
+                    if (searchCoin.includes(data[i])) {
+                        coinData.children[i].style.display = "block";
+                    } else {
+                        coinData.children[i].style.display = "none";
+                    }
+                }
+            } else {
+                try {
+                    const response = await fetch(
+                        "https://api.coingecko.com/api/v3/search?query=" +
+                        encodeURIComponent(searchValue),
+                        {
+                            headers: {
+                                "x-cg-demo-api-key": api_key
+                            }
+                        }
+                    );
+                    if (!response.ok) {
+                        throw new Error("Search failed");
+                    }
+                    const searchData = await response.json();
+                    if (searchData.coins.length > 0) {
+                        showCoinDetails(searchData.coins[0].id);
+                    } else {
+                        coinDetails.textContent = "Coin not found.";
+                    }
+                } catch (error) {
+                    console.log(error);
+                    coinDetails.textContent = "Unable to search coin.";
+                }
+            }
+        });
 
         searchBtn.addEventListener("click", function () {
             const searchValue = searchInput.value.toLowerCase();
@@ -204,6 +253,11 @@ async function showCoinDetails(coinId) {
     coinDetails.textContent = "Loading coin details...";
 
     try {
+        const selectedCoin = allCoins.find(function (coin) {
+            return coin.id === coinId;
+        });
+
+        console.log(selectedCoin);
         const response = await fetch(
             "https://api.coingecko.com/api/v3/coins/" + coinId +
             "?localization=false&tickers=false&market_data=true"

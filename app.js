@@ -4,7 +4,9 @@ const api_key = "CG-Bbd4ZZzQz1tjBUNyPbgB2nye";
 const api = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false";
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 async function fetchData() {
+    const coinData = document.getElementById("coin-data");
     try {
+        coinData.textContent = "Loading...";
         const response = await fetch(api, {
             headers: {
                 "x-cg-demo-api-key": api_key
@@ -14,9 +16,7 @@ async function fetchData() {
 
         if (!response.ok) {
             throw new Error("Unable to fetch data from API");
-        }
-
-        const coinData = document.getElementById("coin-data");
+        }   
         coinData.textContent = "";
 
         for (let i = 0; i < data.length; i++) {
@@ -173,6 +173,8 @@ async function fetchData() {
     } catch (error) {
 
         console.log(error);
+        coinData.textContent = "Unable to load coin data. Please try again later.";
+        coinData.className = "bg-red-900 text-red-200 p-5 rounded-lg text-center";
     }
 }
 const refreshBtn = document.getElementById("refresh-btn");

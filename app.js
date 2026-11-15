@@ -90,49 +90,39 @@ async function fetchData() {
             coinData.appendChild(coinCard);
         }
 
-
         const searchInput = document.getElementById("search-input");
         const searchBtn = document.getElementById("search-btn");
-
         searchBtn.addEventListener("click", async function () {
-            const searchValue = searchInput.value.toLowerCase();
-
-            const searchCoin = data.filter(function (coin) {
-                return coin.name.toLowerCase().includes(searchValue);
-            });
-
-            if (searchCoin.length > 0) {
-                for (let i = 0; i < data.length; i++) {
-                    if (searchCoin.includes(data[i])) {
-                        coinData.children[i].style.display = "block";
-                    } else {
-                        coinData.children[i].style.display = "none";
-                    }
-                }
-            } else {
-                try {
-                    const response = await fetch(
-                        "https://api.coingecko.com/api/v3/search?query=" +
-                        encodeURIComponent(searchValue),
-                        {
-                            headers: {
-                                "x-cg-demo-api-key": api_key
-                            }
+            const searchValue = searchInput.value.trim();
+            if (searchValue === "") {
+                coinDetails.textContent = "Please enter a coin name.";
+                return;
+            }
+            coinDetails.textContent = "Searching coin...";
+            try {
+                const response = await fetch(
+                    "https://api.coingecko.com/api/v3/search?query=" +
+                    encodeURIComponent(searchValue),
+                    {
+                        headers: {
+                            "x-cg-demo-api-key": api_key
                         }
-                    );
-                    if (!response.ok) {
-                        throw new Error("Search failed");
                     }
-                    const searchData = await response.json();
-                    if (searchData.coins.length > 0) {
-                        showCoinDetails(searchData.coins[0].id);
-                    } else {
-                        coinDetails.textContent = "Coin not found.";
-                    }
-                } catch (error) {
-                    console.log(error);
-                    coinDetails.textContent = "Unable to search coin.";
+                );
+                if (!response.ok) {
+                    throw new Error("Search failed");
                 }
+                const searchData = await response.json();
+
+                if (searchData.coins.length > 0) {
+                    showCoinDetails(searchData.coins[0].id);
+                } else {
+                    coinDetails.textContent = "Coin not found.";
+                }
+
+            } catch (error) {
+                console.log(error);
+                coinDetails.textContent = "Unable to search coin.";
             }
         });
 
